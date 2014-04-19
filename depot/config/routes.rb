@@ -11,7 +11,9 @@ Rails.application.routes.draw do
 
   get 'store/index'
 
-  resources :products
+  resources :products do
+    get :who_bought, on: :member
+  end
 
   root 'store#index', as: 'store'
 
