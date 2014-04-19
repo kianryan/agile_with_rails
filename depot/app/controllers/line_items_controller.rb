@@ -2,7 +2,7 @@ class LineItemsController < ApplicationController
   include CurrentCart
   include PageStats
 
-  before_action :set_cart, only: [:create]
+  before_action :set_cart, only: [:create, :destroy]
   before_action :reset_count, only: [:create]
   before_action :set_line_item, only: [:show, :edit, :update, :destroy]
 
@@ -62,7 +62,7 @@ class LineItemsController < ApplicationController
   def destroy
     @line_item.destroy
     respond_to do |format|
-      format.html { redirect_to line_items_url }
+      format.html { redirect_to @cart  }
       format.json { head :no_content }
     end
   end

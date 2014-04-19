@@ -20,3 +20,18 @@ ruby:
     delivered fast, you should add Ruby to your toolbox.
   price: 49.50
   image_url: ruby.png
+
+tmux:
+  title: tmux - Productive Mouse-Free Development
+  description:
+    Your mouse is slowing you down. The time you 
+    spend context switching between your editor and 
+    your consoles eats away at your productivity. 
+    Take control of your environment with tmux, 
+    a terminal multiplexer that you can tailor to 
+    your workflow. Learn how to customize, script, 
+    and leverage tmux’s unique abilities and keep 
+    your fingers on your keyboard’s home row.
+  price: 30.25
+  image_url: tmux.png
+
