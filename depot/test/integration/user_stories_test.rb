@@ -109,7 +109,7 @@ class UserStoriesTest < ActionDispatch::IntegrationTest
     # Ensure mail sent
     assert_equal 1, ActionMailer::Base.deliveries.count
     mail = ActionMailer::Base.deliveries.last
-    assert_equal ["dave@hotmail.com"], mail.to
+    assert_equal ["dave@example.org"], mail.to
     assert_equal "Pragmatic Store Order Shipped", mail.subject
   end
 
