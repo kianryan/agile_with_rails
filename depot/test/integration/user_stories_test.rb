@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UserStoriesTest < ActionDispatch::IntegrationTest
-  fixtures [:products, :payment_types]
+  fixtures [:products, :payment_types, :orders]
 
   # A user goes to the index page.  They select a product
   # adding it to their cart, and check out, filling in their
@@ -14,6 +14,7 @@ class UserStoriesTest < ActionDispatch::IntegrationTest
     # Set up
     LineItem.delete_all
     Order.delete_all
+    ActionMailer::Base.deliveries.clear
     ruby_book = products(:ruby)
     payment_type = payment_types(:one)
 
@@ -70,4 +71,59 @@ class UserStoriesTest < ActionDispatch::IntegrationTest
     assert_equal "Pragmatic Store Order Confirmation", mail.subject
   end
 
+  # An user updates an order.  The order does
+  # not change the shipped date so the shipped 
+  # mail is not sent
+  test "updating an order" do
+    order = orders(:one)
+    ActionMailer::Base.deliveries.clear
+
+    put_via_redirect "/orders/" + order.id.to_s,
+      order: { name: "Dave Tinsley" }
+    assert_response :success
+
+    # Check changed attribute
+    order = Order.find(order.id)
+    assert_equal "Dave Tinsley", order.name
+
+    # Ensure no mail sent
+    assert_equal 0, ActionMailer::Base.deliveries.count
+  end
+  #
+  # An user updates an order.  The order does
+  # change the shipped date so the shipped 
+  # mail is not sent
+  test "updating an order, changing shipped date" do
+    order = orders(:one)
+    now = Date.today
+    ActionMailer::Base.deliveries.clear
+
+    put_via_redirect "/orders/" + order.id.to_s,
+      order: { ship_date: now }
+    assert_response :success
+
+    # Check changed attribute
+    order = Order.find(order.id)
+    assert_equal now, order.ship_date
+
+    # Ensure mail sent
+    assert_equal 1, ActionMailer::Base.deliveries.count
+    mail = ActionMailer::Base.deliveries.last
+    assert_equal ["dave@hotmail.com"], mail.to
+    assert_equal "Pragmatic Store Order Shipped", mail.subject
+  end
+
+  # Attempting to access a cart with an invalid
+  # id should send a log message and redirect the user
+  test "accessing an invalid cart" do
+    get_via_redirect "/carts/invalid_cart_name"
+    
+    assert_response :success
+    assert_equal 'Invalid cart', flash[:notice]
+
+    # Ensure mail sent
+    assert_equal 1, ActionMailer::Base.deliveries.count
+    mail = ActionMailer::Base.deliveries.last
+    assert_equal ["admin@depot.com"], mail.to
+  end
 end
