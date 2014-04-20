@@ -1,5 +1,5 @@
 <div class="depot_form">
-  
+
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
@@ -15,6 +15,13 @@
 
   <fieldset>
   <legend>Enter user Details</legend>
+
+  <% if ["edit", "update"].include? params[:action] %>
+  <div class="field">
+    <%= f.label :current_password, 'User Password' %>
+    <%= f.text_field :current_password %>
+  </div>
+  <% end %>
 
   <div class="field">
     <%= f.label :name %><br>

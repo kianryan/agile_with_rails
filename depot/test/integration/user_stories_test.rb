@@ -136,4 +136,20 @@ class UserStoriesTest < ActionDispatch::IntegrationTest
     mail = ActionMailer::Base.deliveries.last
     assert_equal ["admin@depot.com"], mail.to
   end
+
+  test "accessing users without login" do
+    get '/users'
+    assert_response :redirect
+  end
+
+  test "accessing users with login" do
+    user = users(:one)
+
+    # Login as authenticated user
+    post_via_redirect "/login",
+      { name: user.name, password: 'secret' }
+
+    get '/users'
+    assert_response :success
+  end
 end

@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_params)
+      if reauthorize && @user.update(user_params)
         format.html { redirect_to users_url, notice: "User #{@user.name} was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -77,4 +77,17 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :password, :password_confirmation)
     end
+
+    def reauthorize
+      current_password = params[:user].delete(:current_password)
+      user = User.find_by(id: session[:user_id])
+      
+      if ! user.authenticate(current_password)
+        @user.errors.add(:current_password, "Wrong password for current user")
+        return false
+      end
+
+      true
+    end
+
 end

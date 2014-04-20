@@ -5,10 +5,12 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  attr_accessor :current_password
+
   private
-  def ensure_an_admin_remains
-    if User.count.zero?
-      raise "Can't delete last user"
+    def ensure_an_admin_remains
+      if User.count.zero?
+        raise "Can't delete last user"
+      end
     end
-  end
 end
