@@ -76,7 +76,12 @@ class UserStoriesTest < ActionDispatch::IntegrationTest
   # mail is not sent
   test "updating an order" do
     order = orders(:one)
+    user = users(:one)
     ActionMailer::Base.deliveries.clear
+
+    # Login as authenticated user
+    post_via_redirect "/login",
+      { name: user.name, password: 'secret' }
 
     put_via_redirect "/orders/" + order.id.to_s,
       order: { name: "Dave Tinsley" }
@@ -95,8 +100,13 @@ class UserStoriesTest < ActionDispatch::IntegrationTest
   # mail is not sent
   test "updating an order, changing shipped date" do
     order = orders(:one)
+    user = users(:one)
     now = Date.today
     ActionMailer::Base.deliveries.clear
+
+    # Login as authenticated user
+    post_via_redirect "/login",
+      { name: user.name, password: 'secret' }
 
     put_via_redirect "/orders/" + order.id.to_s,
       order: { ship_date: now }

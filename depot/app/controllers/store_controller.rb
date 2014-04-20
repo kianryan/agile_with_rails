@@ -2,6 +2,8 @@ class StoreController < ApplicationController
   include PageStats
   include CurrentCart
 
+  skip_before_action :authorize
+
   before_action :set_cart
   before_action :visit, only: [:index]
 
