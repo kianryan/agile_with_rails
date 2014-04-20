@@ -1,0 +1,28 @@
+
+es:
+  number:
+    currency:
+        format:
+            format: "%u%n"
+            unit: "&pound;GBP"
+            # These three are to override number.format and are optional
+            separator: ","
+            delimiter: "."
+            precision: 2
+            format: "%n&nbsp;%u"
+  layouts: 
+    application:
+      title: "Publicaciones de Pragmatic"
+      home: "Inicio"
+      questions: "Preguntas"
+      news: "Noticias"
+      contact: "Contacto"
+  store:
+    index:
+      title_html: "Su Catálogo de Pragmatic"
+      add_html: "Añadir al Carrito"
+  carts:
+    cart:
+      title: "Carrito de la Compra"
+      empty: "Vaciar Carrito"
+      checkout: "Comprar"
