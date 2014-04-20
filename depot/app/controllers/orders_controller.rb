@@ -3,6 +3,7 @@ class OrdersController < ApplicationController
 
   before_action :set_cart, only: [:new, :create]
   before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_payment_types, only: [:new, :create, :edit, :update]
 
   # GET /orders
   # GET /orders.json
@@ -79,8 +80,12 @@ class OrdersController < ApplicationController
       @order = Order.find(params[:id])
     end
 
+    def set_payment_types
+      @payment_types = PaymentType.all.map{ |type| [type.name, type.id] }
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:name, :address, :email, :pay_type)
+      params.require(:order).permit(:name, :address, :email, :payment_type_id)
     end
 end

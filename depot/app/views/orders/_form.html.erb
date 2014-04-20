@@ -24,8 +24,9 @@
     <%= f.text_field :email, size: 40 %>
   </div>
   <div class="field">
-    <%= f.label :pay_type %><br>
-    <%= f.select :pay_type, Order::PAYMENT_TYPES, prompt: 'Select a payment method' %>
+    <%= f.label :payment_type_id %><br>
+    <%= f.select :payment_type_id, options_for_select(@payment_types), prompt: "Please Select A Payment Type" %>
+
   </div>
   <div class="actions">
     <%= f.submit 'Place Order' %>
