@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Spanish Name</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -12,6 +13,7 @@
     <% @payment_types.each do |payment_type| %>
       <tr>
         <td><%= payment_type.name %></td>
+        <td><%= payment_type.es_name %></td>
         <td><%= link_to 'Show', payment_type %></td>
         <td><%= link_to 'Edit', edit_payment_type_path(payment_type) %></td>
         <td><%= link_to 'Destroy', payment_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>

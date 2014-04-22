@@ -87,6 +87,7 @@ class OrdersController < ApplicationController
     end
 
     def set_payment_types
+      @payment_types = PaymentType.all.map{ |type| [type.es_name, type.id] } if I18n.locale == "es"
       @payment_types = PaymentType.all.map{ |type| [type.name, type.id] }
     end
 

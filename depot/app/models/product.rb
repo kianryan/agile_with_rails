@@ -16,6 +16,11 @@ class Product < ActiveRecord::Base
     Product.order(:updated_at).last
   end
 
+  def local_price
+    return price * 1.22 if I18n.locale == "en"
+    price
+  end
+
   private
     def ensure_not_referenced_by_any_line_item
       if line_items.empty?
